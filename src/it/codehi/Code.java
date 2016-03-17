@@ -5,13 +5,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
-import org.uniplore.TypeTest;
+import org.uniplore.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.*;
 import com.mysql.jdbc.*;
-
+/*
+ * @author ShengtianMin
+ * @version 1.0
+ * @param
+ * @return
+ * @throws
+ */
 public class Code {
 	//public int intarray[];
     /*  编码变量定义
@@ -30,6 +36,13 @@ public class Code {
 		TypeTest tt=new TypeTest();
 		TypeTest tt2=new TypeTest();
 		System.out.println(tt.getil()+"'"+tt.getcchar()+"'"+tt.getcount());
+		ATypeName a=new ATypeName();
+		System.out.println(a.storage("Test"));
+		DataOnly doy=new DataOnly();
+		doy.i=47;
+		doy.d=1.1;
+		doy.b=false;
+		doy.showBaozhuang();
 		/*编码主函数
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -72,7 +85,14 @@ public class Code {
 		WriteToFile(count,arr,arrcode,arrkey);
 		System.out.println("OK");
 		*/
-
+        TestStatic();
+	}
+	
+	//测试static关键字
+	public static void TestStatic(){
+		Incrementable sf=new Incrementable();
+		sf.increment();
+		System.out.println(StaticTest.i);
 	}
 	//写入文件
 	public static void WriteToFile(int count,String arr[],String arrcode[],String arrkey[]){
