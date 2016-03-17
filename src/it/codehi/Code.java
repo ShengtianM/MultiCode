@@ -4,6 +4,9 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+
+import org.uniplore.TypeTest;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.*;
@@ -11,7 +14,7 @@ import com.mysql.jdbc.*;
 
 public class Code {
 	//public int intarray[];
-
+    /*  编码变量定义
 	public static final String mysqlurl="jdbc:mysql://192.168.100.194/tpch?useUnicode=true&characterEncoding=gbk&zeroDateTimeBehavior=convertToNull";
 	public static final String mysqlname="com.mysql.jdbc.Driver";
 	public static final String mysqluser="root";
@@ -20,9 +23,14 @@ public class Code {
 	public static final int cc=1500000;
 	public static final String colname="O_ORDERSTATUS";
 	public static final String keyname="O_ORDERKEY";
-	public static final String tablename="orders";
+	public static final String tablename="orders"; 
+	*/
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		TypeTest tt=new TypeTest();
+		TypeTest tt2=new TypeTest();
+		System.out.println(tt.getil()+"'"+tt.getcchar()+"'"+tt.getcount());
+		/*编码主函数
 		Statement stmt = null;
 		ResultSet rset = null;
 		ResultSet mysqlrset=null;
@@ -63,10 +71,12 @@ public class Code {
 		}
 		WriteToFile(count,arr,arrcode,arrkey);
 		System.out.println("OK");
+		*/
 
 	}
 	//写入文件
 	public static void WriteToFile(int count,String arr[],String arrcode[],String arrkey[]){
+		/*
 		File file=new File("D:/"+tablename+".txt");
 		FileWriter fw=null;
 		BufferedWriter bw=null;
@@ -91,7 +101,7 @@ public class Code {
 			catch(Exception e){
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	//转化为十六进制
 	public static String Conv(String s,int i){

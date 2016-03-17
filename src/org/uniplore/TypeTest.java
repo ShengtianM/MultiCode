@@ -1,4 +1,4 @@
-package org.uniplore.typetest;
+package org.uniplore;
 /*
  * 用于验证Java是否执行了默认初始化
  * 用于验证无论创建了多少个对象，该类中的某个特定的static域只有一个实例
@@ -21,4 +21,5 @@ public class TypeTest {
 	public int getcount(){
 		return count;
 	}
+
 }
