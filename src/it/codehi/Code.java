@@ -33,16 +33,16 @@ public class Code {
 	*/
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TypeTest tt=new TypeTest();
-		TypeTest tt2=new TypeTest();
-		System.out.println(tt.getil()+"'"+tt.getcchar()+"'"+tt.getcount());
-		ATypeName a=new ATypeName();
-		System.out.println(a.storage("Test"));
-		DataOnly doy=new DataOnly();
-		doy.i=47;
-		doy.d=1.1;
-		doy.b=false;
-		doy.showBaozhuang();
+		//TypeTest tt=new TypeTest();
+		//TypeTest tt2=new TypeTest();
+		//System.out.println(tt.getil()+"'"+tt.getcchar()+"'"+tt.getcount());
+		//ATypeName a=new ATypeName();
+		//System.out.println(a.storage("Test"));
+		//DataOnly doy=new DataOnly();
+		//doy.i=47;
+		//doy.d=1.1;
+		//doy.b=false;
+		//doy.showBaozhuang();
 		/*±àÂëÖ÷º¯Êý
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -85,7 +85,9 @@ public class Code {
 		WriteToFile(count,arr,arrcode,arrkey);
 		System.out.println("OK");
 		*/
-        TestStatic();
+        //TestStatic();
+       // TestPrint();
+        TestPractice2();
 	}
 	
 	//²âÊÔstatic¹Ø¼ü×Ö
@@ -137,5 +139,15 @@ public class Code {
 		}
 		return s;
 	} 
+	// ²âÊÔÊä³ö
+	public static void TestPrint(){
+		PrintTest pt=new PrintTest();
+		pt.printsimple();
+	}
+	public static void TestPractice2(){
+		PracticeTwo pt2=new PracticeTwo();
+		pt2.show();
+		pt2.dogshow();
+	}
 
 }
