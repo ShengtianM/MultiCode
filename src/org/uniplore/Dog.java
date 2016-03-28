@@ -12,4 +12,10 @@ public class Dog {
     public void dogshow(){
     	System.out.println("Name is"+name+",says"+says);
     }
+    public void bark(){
+    	System.out.println("barking");
+    }
+    public void bark(String ss){
+    	System.out.println("howling");
+    }
 }

@@ -87,7 +87,8 @@ public class Code {
 		*/
         //TestStatic();
        // TestPrint();
-        TestPractice2();
+       // TestPractice2();
+		TestPractice3();
 	}
 	
 	//²âÊÔstatic¹Ø¼ü×Ö
@@ -148,6 +149,11 @@ public class Code {
 		PracticeTwo pt2=new PracticeTwo();
 		pt2.show();
 		pt2.dogshow();
+	}
+	public static void TestPractice3(){
+		PracticeThree pt2=new PracticeThree();
+		pt2.show();
+		pt2.testthis();
 	}
 
 }
