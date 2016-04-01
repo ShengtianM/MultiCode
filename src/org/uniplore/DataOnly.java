@@ -6,8 +6,9 @@ public class DataOnly {
 	public boolean b;
 	public DataOnly(){		
 	}
+	//²âÊÔ°ü×°Æ÷
 	public void showBaozhuang(){
-		String s=new String("Test Baozhaung");
+		String s=new String("Test Baozhuang");
 		System.out.println(s);
 	}
 	public void setint(int in){
