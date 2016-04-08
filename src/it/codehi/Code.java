@@ -7,8 +7,6 @@ import java.sql.Statement;
 
 import org.uniplore.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.*;
 import com.mysql.jdbc.*;
 /*
@@ -20,7 +18,6 @@ import com.mysql.jdbc.*;
  */
 public class Code {
 	//public int intarray[];
-    /*  ±àÂë±äÁ¿¶¨Òå
 	public static final String mysqlurl="jdbc:mysql://192.168.100.194/tpch?useUnicode=true&characterEncoding=gbk&zeroDateTimeBehavior=convertToNull";
 	public static final String mysqlname="com.mysql.jdbc.Driver";
 	public static final String mysqluser="root";
@@ -30,8 +27,7 @@ public class Code {
 	public static final String colname="O_ORDERSTATUS";
 	public static final String keyname="O_ORDERKEY";
 	public static final String tablename="orders"; 
-	*/
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		//TypeTest tt=new TypeTest();
 		//TypeTest tt2=new TypeTest();
@@ -43,7 +39,17 @@ public class Code {
 		//doy.d=1.1;
 		//doy.b=false;
 		//doy.showBaozhuang();
-		/*±àÂëÖ÷º¯Êý
+		
+        //TestStatic();
+       // TestPrint();
+       // TestPractice2();
+		//TestPractice3();
+		ReplaceText rt=new ReplaceText();
+		rt.Start();
+		
+	}
+	
+	public static void CodeConn(){
 		Statement stmt = null;
 		ResultSet rset = null;
 		ResultSet mysqlrset=null;
@@ -67,7 +73,7 @@ public class Code {
 		//	System.out.println(arr[i]);
 		}
 		try{
-			//mysqlÁ¬½Ó
+			//mysqlï¿½ï¿½ï¿½ï¿½
 			Class.forName(mysqlname);
 			Connection mysqlconn=DriverManager.getConnection(mysqlurl,mysqluser,mysqlpwd);
 			mysqlsql="select DISTINCT "+colname+","+keyname+" from "+tablename+" ORDER BY "+colname+" ASC";
@@ -84,22 +90,16 @@ public class Code {
 		}
 		WriteToFile(count,arr,arrcode,arrkey);
 		System.out.println("OK");
-		*/
-        //TestStatic();
-       // TestPrint();
-       // TestPractice2();
-		TestPractice3();
 	}
 	
-	//²âÊÔstatic¹Ø¼ü×Ö
+	//ï¿½ï¿½ï¿½ï¿½staticï¿½Ø¼ï¿½ï¿½ï¿½
 	public static void TestStatic(){
 		Incrementable sf=new Incrementable();
 		sf.increment();
 		System.out.println(StaticTest.i);
 	}
-	//Ð´ÈëÎÄ¼þ
+	//Ð´ï¿½ï¿½ï¿½Ä¼ï¿½
 	public static void WriteToFile(int count,String arr[],String arrcode[],String arrkey[]){
-		/*
 		File file=new File("D:/"+tablename+".txt");
 		FileWriter fw=null;
 		BufferedWriter bw=null;
@@ -124,9 +124,9 @@ public class Code {
 			catch(Exception e){
 				e.printStackTrace();
 			}
-		}*/
+		}
 	}
-	//×ª»¯ÎªÊ®Áù½øÖÆ
+	//×ªï¿½ï¿½ÎªÊ®ï¿½ï¿½ï¿½ï¿½ï¿½
 	public static String Conv(String s,int i){
 		int sub=0;
 		int len=s.length();
@@ -140,7 +140,7 @@ public class Code {
 		}
 		return s;
 	} 
-	// ²âÊÔÊä³ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public static void TestPrint(){
 		PrintTest pt=new PrintTest();
 		pt.printsimple();
