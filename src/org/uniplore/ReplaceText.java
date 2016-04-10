@@ -29,7 +29,9 @@ public class ReplaceText {
 				bw = new BufferedWriter(fw);
 				String s; //用于暂存读取的文件内容
 				String t=null; //用于保存匹配内容
+				String fname=null;
 				int flag=0;//匹配标识
+				fname=file.getName();
 				while((s=in.readLine())!=null){
 					//判断是否匹配
 					Matcher matcher=pattern.matcher(s);
@@ -37,14 +39,14 @@ public class ReplaceText {
 						//如果一行内容匹配成功，且该行包含{
 						if(matcher.group().contains("{")){
 							//写入内容
-							bw.write(s+"System.out.println(\""+matcher.group()+"\");");
+							bw.write(s+"System.out.println(\""+fname+":"+matcher.group()+"\");");
 							bw.newLine();
 							bw.flush();
 						}
 						//如果一行内容匹配成功，且该行不包含{，{应该出现下行，该行的匹配信息应该被保存
 						else{
 							flag=1;  
-							t="System.out.println(\""+matcher.group()+"\");";	
+							t="System.out.println(\""+fname+":"+matcher.group()+"\");";	
 							bw.write(s);
 							bw.newLine();
 							bw.flush();					
