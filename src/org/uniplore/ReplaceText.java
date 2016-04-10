@@ -12,7 +12,7 @@ public class ReplaceText {
 	BufferedReader in;
 	FileWriter fw=null;
 	BufferedWriter bw=null;
-	Pattern pattern=Pattern.compile("(private|protect|public)\\s+(static\\s)*[a-zA-Z.]+\\s*[a-zA-Z]*[(]+[a-zA-Z\\s.]*[)]*[{]*");
+	Pattern pattern=Pattern.compile("(private|protect|public)\\s+(static\\s)*[a-zA-Z.]+\\s*[a-zA-Z]*[(]+[a-zA-Z\\[\\]\\s.,_]*[)]*[a-zA-Z\\s.]*[{]*");
 	File f=new File("D:/src/");
 	try {
 		if (f.isDirectory()){
@@ -23,20 +23,38 @@ public class ReplaceText {
 		   fw = new FileWriter(file);
 		   bw = new BufferedWriter(fw);
 		   String s;
+		   String t=null;
+		   int flag=0;
 		while((s=in.readLine())!=null){
 			Matcher matcher=pattern.matcher(s);
 			if(matcher.find()){
+				if(matcher.group().contains("{")){
 			//System.out.println(matcher.group());
 				bw.write(s+"System.out.println(\""+matcher.group()+"\");");
 				bw.newLine();
 				bw.flush();
-			}	
+				}
+				else{
+					flag=1;
+					t="System.out.println(\""+matcher.group()+"\");";	
+					bw.write(s);
+					bw.newLine();
+					bw.flush();					
+				}
+			}
+			else if(s.contains("{")&&flag==1){
+				bw.write(s+t);
+				bw.newLine();
+				bw.flush();
+				System.out.println(flag);
+				flag=0;
+				t=null;
+			}
 			else{
 				bw.write(s);
 				bw.newLine();
 				bw.flush();
 			}
-		
 		}
 		in.close();
 		bw.close();
