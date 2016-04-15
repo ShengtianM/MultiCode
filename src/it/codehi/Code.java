@@ -44,9 +44,12 @@ public class Code {
        // TestPrint();
        // TestPractice2();
 		//TestPractice3();
-		ReplaceText rt=new ReplaceText();
-		rt.Start();
+		//ReplaceText start
 		
+//		ReplaceText rt=new ReplaceText();
+//		rt.Start();
+		AppleList al=new AppleList();
+		al.start();
 	}
 	
 	public static void CodeConn(){
