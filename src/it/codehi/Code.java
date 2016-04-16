@@ -48,8 +48,17 @@ public class Code {
 		
 //		ReplaceText rt=new ReplaceText();
 //		rt.Start();
-		AppleList al=new AppleList();
-		al.start();
+		//<>
+//		AppleList al=new AppleList();
+//		al.start();
+		//PrintContainers
+		PrintContainerStart();
+	}
+	
+	//打印容器
+	public static void PrintContainerStart(){
+		PrintContainers pc=new PrintContainers();
+		pc.start();
 	}
 	
 	public static void CodeConn(){
