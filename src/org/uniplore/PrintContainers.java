@@ -4,6 +4,12 @@ import java.util.*;
 import java.util.Collection;
 
 public class PrintContainers {
+	//预设字符链表
+	public static Collection<String> slist=new ArrayList<String>();
+	public PrintContainers(){
+		String[] s={"aaa","bbbb","cccc","ddd"};
+		slist.addAll(Arrays.asList(s));
+	}
 	//测试集合
 	static Collection fill(Collection<String> collection){
 		collection.add("rat");
@@ -19,6 +25,16 @@ public class PrintContainers {
 		map.put("dog","Bosco");
 		map.put("dog","Spot");
 		return map;
+	}
+	
+	//测试生成器类
+	
+	static String next(){
+		String s=null;
+		for(String ss:slist){
+			s=ss;
+		}
+		return s;
 	}
 	
 	public static void start(){
