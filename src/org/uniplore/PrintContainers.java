@@ -37,6 +37,12 @@ public class PrintContainers {
 		return s;
 	}
 	
+	// 测试Arrays.asList和addAll
+	static void testasListandAddall(){
+		List<Apple> apple=Arrays.asList(new Apple(),new Apple());
+		Collections.addAll(apple,new Apple(),new Apple());
+	}
+	
 	public static void start(){
 		System.out.println(fill(new ArrayList<String>()));
 		System.out.println(fill(new LinkedList<String>()));
@@ -46,6 +52,7 @@ public class PrintContainers {
 		System.out.println(fill(new HashMap<String,String>()));
 		System.out.println(fill(new TreeMap<String,String>()));
 		System.out.println(fill(new LinkedHashMap<String,String>()));
+		
 	}
 
 }
