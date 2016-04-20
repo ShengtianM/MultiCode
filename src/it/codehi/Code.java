@@ -29,16 +29,6 @@ public class Code {
 	public static final String tablename="orders"; 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		//TypeTest tt=new TypeTest();
-		//TypeTest tt2=new TypeTest();
-		//System.out.println(tt.getil()+"'"+tt.getcchar()+"'"+tt.getcount());
-		//ATypeName a=new ATypeName();
-		//System.out.println(a.storage("Test"));
-		//DataOnly doy=new DataOnly();
-		//doy.i=47;
-		//doy.d=1.1;
-		//doy.b=false;
-		//doy.showBaozhuang();
 		
         //TestStatic();
        // TestPrint();
@@ -46,13 +36,24 @@ public class Code {
 		//TestPractice3();
 		//ReplaceText start
 		
-//		ReplaceText rt=new ReplaceText();
-//		rt.Start();
 		//<>
 //		AppleList al=new AppleList();
 //		al.start();
 		//PrintContainers
-		PrintContainerStart();
+//		PrintContainerStart();
+		
+	}
+	
+	// 测试Stack
+	public static void testStack(){
+		Apple a=new Apple();
+		a.testStack();
+	}
+	
+	// 为java代码添加输出语句
+	public static void AddClassPrint() throws IOException{
+		ReplaceText rt=new ReplaceText();
+		rt.Start();
 	}
 	
 	//打印容器
@@ -85,7 +86,7 @@ public class Code {
 		//	System.out.println(arr[i]);
 		}
 		try{
-			//mysql����
+			//mysql连接
 			Class.forName(mysqlname);
 			Connection mysqlconn=DriverManager.getConnection(mysqlurl,mysqluser,mysqlpwd);
 			mysqlsql="select DISTINCT "+colname+","+keyname+" from "+tablename+" ORDER BY "+colname+" ASC";
