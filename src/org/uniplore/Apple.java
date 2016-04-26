@@ -8,6 +8,16 @@ import java.util.Stack;
 public class Apple {
 	private static long counter;
 	private final long id=counter++;
+	private String name;
+	public Apple(){
+		
+	}
+	
+	public Apple(String n){
+		this.name=n;
+		System.out.println("Create Apple");
+	}
+	
 	public long id(){
 		return id;
 	}

@@ -29,22 +29,15 @@ public class Code {
 	public static final String tablename="orders"; 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		
-        //TestStatic();
-       // TestPrint();
-       // TestPractice2();
-		//TestPractice3();
-		//ReplaceText start
-		
-		//<>
-//		AppleList al=new AppleList();
-//		al.start();
-		//PrintContainers
-//		PrintContainerStart();
-		testPattern();
-		
+
+		testExtends();
+	}
+	// 测试Super及继承特性
+	public static void testExtends(){
+		superApple sa = new superApple("SuperApple");
 	}
 	
+	// 测试单例模式及静态方法创建对象
 	public static void testPattern(){
 		SimplePattern ss=SimplePattern.makeSimplePattern();
 		ss.start();
