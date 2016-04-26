@@ -41,7 +41,15 @@ public class Code {
 //		al.start();
 		//PrintContainers
 //		PrintContainerStart();
+		testPattern();
 		
+	}
+	
+	public static void testPattern(){
+		SimplePattern ss=SimplePattern.makeSimplePattern();
+		ss.start();
+		SimplePattern sp=SimplePattern.access();
+		sp.start();
 	}
 	
 	// 测试Stack
@@ -105,13 +113,13 @@ public class Code {
 		System.out.println("OK");
 	}
 	
-	//����static�ؼ���
+	// 测试static方法
 	public static void TestStatic(){
 		Incrementable sf=new Incrementable();
 		sf.increment();
 		System.out.println(StaticTest.i);
 	}
-	//д���ļ�
+	// 写文件
 	public static void WriteToFile(int count,String arr[],String arrcode[],String arrkey[]){
 		File file=new File("D:/"+tablename+".txt");
 		FileWriter fw=null;
@@ -139,7 +147,8 @@ public class Code {
 			}
 		}
 	}
-	//ת��Ϊʮ�����
+	
+	// 位数补全，当s的位数低于指定位数i时，在s的高位补上0
 	public static String Conv(String s,int i){
 		int sub=0;
 		int len=s.length();
@@ -152,8 +161,9 @@ public class Code {
 			s='0'+s;
 		}
 		return s;
-	} 
-	// �������
+	}
+	
+	// 测试简单的输出语句
 	public static void TestPrint(){
 		PrintTest pt=new PrintTest();
 		pt.printsimple();
