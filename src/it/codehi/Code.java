@@ -29,10 +29,21 @@ public class Code {
 	public static final String tablename="orders"; 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		ShipShow ss = new ShipShow();
-		ss.start();
  
 	}
+	
+	// 测试向上和向下转型
+	public static void testCycle(){
+		Cycle cc = new Cycle();
+		cc.start();
+	}
+	
+	// 测试组合实现状态模式
+	public static void testShipShow(){
+		ShipShow ss = new ShipShow();
+		ss.start();
+	}
+	
 	// 测试Super及继承特性
 	public static void testExtends(){
 		superApple sa = new superApple("SuperApple");
