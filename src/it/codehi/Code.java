@@ -4,11 +4,32 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.uniplore.*;
 
 import java.io.*;
-import com.mysql.jdbc.*;
+
+import java.io.IOException;
+
+import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.IDesignEngine;
+import org.eclipse.birt.report.model.api.IDesignEngineFactory;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import com.ibm.icu.util.ULocale;
+
 /*
  * @author ShengtianMin
  * @version 1.0
@@ -27,11 +48,138 @@ public class Code {
 	public static final String colname="O_ORDERSTATUS";
 	public static final String keyname="O_ORDERKEY";
 	public static final String tablename="orders"; 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
  
+		//new HelloButton();
+//		try
+//		{
+//			buildReport( );
+//		}
+//		catch ( IOException e )
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		catch ( SemanticException e )
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		AddClassPrint();
+//		SDKDataSourceForCloud.getDataSource("","","");
+		sumFileRows();
+		
 	}
 	
+	public static void sumFileRows() throws Exception{
+		SumFileRows sfr=new SumFileRows();
+		sfr.Start();
+	}
+	
+	public void sortArray(){
+		System.out.println("start");
+		int ds[]={9,3,1,5,4};
+		for(int i=0;i<ds.length;i++){
+			System.out.println(ds[i]);
+		}
+		for(int i=0;i<ds.length;i++){
+			for(int j=i;j<ds.length;j++){
+				if(ds[i]<ds[j]){
+					int t=ds[j];
+					ds[j]=ds[i];
+					ds[i]= t;
+				}
+			}
+		}
+		for(int i=0;i<ds.length;i++){
+			System.out.println(ds[i]);
+		}
+	}
+	
+	// add
+	static void buildReport( ) throws IOException, SemanticException
+	{
+		// Create a session handle. This is used to manage all open designs.
+		// Your app need create the session only once.
+
+		
+		//Configure the Engine and start the Platform
+		DesignConfig config = new DesignConfig( );
+
+		config.setProperty("BIRT_HOME", "C:/Users/tian/Desktop/BIRT Plugin/birt-runtime-4.5.0-20150609/birt-runtime-4_5_0/ReportEngine");
+		IDesignEngine engine = null;
+		try{				
+			
+		Platform.startup( config );
+		IDesignEngineFactory factory = (IDesignEngineFactory) Platform.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
+		engine = factory.createDesignEngine( config );
+
+		}catch( Exception ex){
+			ex.printStackTrace();
+		}		
+		
+			
+		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH ) ;
+		//SessionHandle session = DesignEngine.newSession(null) ;
+			
+		// Create a new report design.
+		
+		ReportDesignHandle design = session.createDesign( );
+		
+		// The element factory creates instances of the various BIRT elements.
+		
+		ElementFactory factory = design.getElementFactory( );
+		
+		// Create a simple master page that describes how the report will
+		// appear when printed.
+		//
+		// Note: The report will fail to load in the BIRT designer
+		// unless you create a master page.
+		
+		DesignElementHandle element = factory.newSimpleMasterPage( "Page Master" ); //$NON-NLS-1$
+		design.getMasterPages( ).add( element );
+		
+		// Create a grid and add it to the "body" slot of the report
+		// design.
+		
+		GridHandle grid = factory.newGridItem( null, 2 /* cols */, 1 /* row */ );
+		design.getBody( ).add( grid );
+		
+		// Note: Set the table width to 100% to prevent the label
+		// from appearing too narrow in the layout view.
+		
+		grid.setWidth( "100%" ); //$NON-NLS-1$
+		
+		// Get the first row.
+		
+		RowHandle row = (RowHandle) grid.getRows( ).get( 0 );
+		
+		// Create an image and add it to the first cell.
+		
+		ImageHandle image = factory.newImage( null );
+		CellHandle cell = (CellHandle) row.getCells( ).get( 0 );
+		cell.getContent( ).add( image );
+		image.setURL( "\"http://www.eclipse.org/birt/phoenix/tutorial/basic/multichip-4.jpg\"" ); 
+		
+		// Create a label and add it to the second cell.
+		
+		LabelHandle label = factory.newLabel( null );
+		cell = (CellHandle) row.getCells( ).get( 1 );
+		cell.getContent( ).add( label );
+		label.setText( "Hello, world!" ); //$NON-NLS-1$
+		
+		// Save the design and close it.
+		
+		design.saveAs( "D:/apache-tomcat-8.0.33-windows-x64/apache-tomcat-8.0.33/webapps/birt-viewer/report/sampletest.rptdesign" ); //$NON-NLS-1$
+		design.close( );
+		System.out.println("Finished");
+		
+		// We're done!
+	}
+	// end
+	
+
 	// 测试向上和向下转型
 	public static void testCycle(){
 		Cycle cc = new Cycle();
@@ -64,7 +212,7 @@ public class Code {
 	}
 	
 	// 为java代码添加输出语句
-	public static void AddClassPrint() throws IOException{
+	public static void AddClassPrint() throws Exception{
 		ReplaceText rt=new ReplaceText();
 		rt.Start();
 	}

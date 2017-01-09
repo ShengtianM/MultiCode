@@ -19,6 +19,12 @@ Collection以及Map输出
 #Apple  
 测试LinkedList、Stack
 
+#ReplaceText
+替换指定文件中的指定内容
+
+#SumFileRows
+统计指定文件夹下所有文件的行数
+
 
 
 
