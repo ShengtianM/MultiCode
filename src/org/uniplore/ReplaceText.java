@@ -57,6 +57,8 @@ public class ReplaceText {
 		BufferedWriter bw=null;
 	    //构建正则表达式
 		Pattern pattern=Pattern.compile("(private|protected|public)\\s+(static\\s)*[a-zA-Z<>.]+\\s*[a-zA-Z<>]*[(]+[a-zA-Z\\[\\]\\s.,_]*[)]*[a-zA-Z\\s.]*[{]*");
+		//Pattern pattern=Pattern.compile("(System.out.println)*");
+		
 		//设置替换文件夹路径
 		in = new BufferedReader(new FileReader(fd));
 		File file=new File(newpath);
