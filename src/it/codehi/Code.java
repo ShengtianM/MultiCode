@@ -13,21 +13,6 @@ import java.io.*;
 
 import java.io.IOException;
 
-import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.ElementFactory;
-import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.IDesignEngine;
-import org.eclipse.birt.report.model.api.IDesignEngineFactory;
-import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.SessionHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import com.ibm.icu.util.ULocale;
 
 /*
@@ -62,7 +47,7 @@ public class Code {
 //		AddClassPrint();
 //		SDKDataSourceForCloud.getDataSource("","","");
 //		sumFileRows();
-		readFileTime();
+//		readFileTime();
 	}
 	
 	

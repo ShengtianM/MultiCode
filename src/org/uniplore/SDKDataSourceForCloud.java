@@ -1,8 +1,5 @@
 package org.uniplore;
 
-import it.eng.spagobi.sdk.datasources.bo.SDKDataSource;
-import it.eng.spagobi.sdk.proxy.DataSourcesSDKServiceProxy;
-
 public class SDKDataSourceForCloud {
 
 	public SDKDataSourceForCloud() {
@@ -21,18 +18,18 @@ public class SDKDataSourceForCloud {
 		String endPoint = BIURL+"/Uniplore/sdk/DataSourcesSDKService";
 		try {
 			// 生成数据源代理
-			DataSourcesSDKServiceProxy proxy = new DataSourcesSDKServiceProxy(
-					BIusername, BIpassword);
-			proxy.setEndpoint(endPoint);
+			//DataSourcesSDKServiceProxy proxy = new DataSourcesSDKServiceProxy(
+					//BIusername, BIpassword);
+			//proxy.setEndpoint(endPoint);
 			// 生成数据源
-			SDKDataSource ds[] = proxy.getDataSources();
-			for (int i = 0; i < ds.length; i++) {
-				System.out.println("数据源描述：" + ds[i].getDescr());
-				System.out.println("数据源地址：" + ds[i].getUrlConnection());
-				System.out.println("数据源账号：" + ds[i].getName());
-				System.out.println("数据源密码：" + ds[i].getPwd());
-				System.out.println("数据源驱动：" + ds[i].getDriver());
-			}
+			//SDKDataSource ds[] = proxy.getDataSources();
+			//for (int i = 0; i < ds.length; i++) {
+//				System.out.println("数据源描述：" + ds[i].getDescr());
+//				System.out.println("数据源地址：" + ds[i].getUrlConnection());
+//				System.out.println("数据源账号：" + ds[i].getName());
+//				System.out.println("数据源密码：" + ds[i].getPwd());
+//				System.out.println("数据源驱动：" + ds[i].getDriver());
+//			}
 
 			System.out.println("-------------------------------------");
 
