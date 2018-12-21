@@ -1,4 +1,4 @@
-package org.uniplore;
+package org.uniplore.tools;
 
 import java.awt.AWTException;
 import java.awt.Robot;

@@ -1,4 +1,4 @@
-package org.uniplore;
+package org.uniplore.tools;
 import java.util.*;
 public class RandomData {
 	public void generatedata(){

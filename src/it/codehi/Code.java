@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uniplore.*;
+import org.uniplore.tools.ReadFileSpeed;
+import org.uniplore.tools.ReplaceText;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package org.uniplore;
+package org.uniplore.tools;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;

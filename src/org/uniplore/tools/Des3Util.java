@@ -1,4 +1,4 @@
-package org.uniplore;
+package org.uniplore.tools;
 
 import java.security.Key;
 import java.util.Base64;
