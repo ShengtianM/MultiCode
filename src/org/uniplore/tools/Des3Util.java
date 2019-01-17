@@ -11,7 +11,7 @@ import javax.crypto.spec.IvParameterSpec;
 public class Des3Util {
 
 	// 密钥
-		private final static String secretKey = "xUnsd1HB4A1dgfd4ads23W";
+		private final static String secretKey = "xUnsd1HB4A1dgfd4ads23asW";
 		// 向量
 		private final static String iv = "uniplore";
 		// 加解密统一使用的编码方式

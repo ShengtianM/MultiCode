@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uniplore.*;
+import org.uniplore.tools.Des3Util;
 import org.uniplore.tools.ReadFileSpeed;
 import org.uniplore.tools.ReplaceText;
 
@@ -35,9 +36,13 @@ public class Code {
 	//public static final String colname="O_ORDERSTATUS";
 	//public static final String keyname="O_ORDERKEY";
 	//public static final String tablename="orders"; 
+	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
- 
+		String  t = "EbzqRQsp9KAt86kZaLtScg==";
+        String ss = Des3Util.decode(t);
+        System.out.println(ss);
+        
 		//new HelloButton();
 //		try
 //		{

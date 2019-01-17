@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/vuedemo.css">
+        <script src="js/vue.js"></script>
+        
+    </head>
+    <body>
+        
+        <div id="app" class="tab" v-bind:class="{'active':active,'unactive':!active}">
+            {{ message}}
+            <input v-bind:class="[one,two]" type="text" v-model="one"/>
+            <select v-model="opr">
+            	<option selected>+</option>
+            	<option>-</option>
+            	<option>x</option>
+            	<option>/</option>
+            </select>
+            <input type="text" v-model="two"/>
+            <p>{{result}}</p>
+            <p><span v-once="ooncemessage">单次插值:{{oncemessage}}</p>
+            <div v-if="active">yes</div>
+            <div v-else>no</div>
+            
+            <ul>
+            	<li v-for="item in list">
+            	{{item.opera}}={{item.result}}
+            	</li>
+            </ul>
+            
+            
+            <button v-on:click="showEvent">ClickEvent</button>
+            <button @click="showEvent">@Event</button>
+            <p v-bind:class="message"/>,<p :class="message"/>
+            
+            <p v-pre>{{message}}</p>
+            <p v-cloak>{{message}}</p>
+            <p v-global-directive="message">11</p>
+            
+        </div>
+        
+       <script src="js/vuedemo.js"></script> 
+    </body>
+</html>

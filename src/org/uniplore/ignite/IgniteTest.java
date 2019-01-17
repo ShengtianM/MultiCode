@@ -11,7 +11,7 @@ import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.flywaydb.core.Flyway;
 
-public class IgniteTest implements Runnable{
+public class IgniteTest{
 	
 	public IgniteTest() {
 		// TODO Auto-generated constructor stub
@@ -20,8 +20,9 @@ public class IgniteTest implements Runnable{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//SearchDataToIgnite();
-		testFlyway();
-        System.out.println("success");
+		//testFlyway();
+        //System.out.println("success");
+		changeIngitePwd();
 	}
 	
 	public static void testFlyway(){
@@ -45,7 +46,7 @@ public class IgniteTest implements Runnable{
 		try{
 		Class.forName("org.apache.ignite.IgniteJdbcThinDriver");
 		// Open JDBC connection
-		Connection conn = DriverManager.getConnection("jdbc:ignite:thin://127.0.0.1");
+		Connection conn = DriverManager.getConnection("jdbc:ignite:thin://127.0.0.1;user=ignite;password=uniplore_601");
 		// Get data
 		Statement stmt = conn.createStatement();
 		    ResultSet rs =
@@ -137,8 +138,27 @@ public class IgniteTest implements Runnable{
 			e.printStackTrace();
 		}
 	}
+	
+	public static void changeIngitePwd(){
+		try{
+			Class.forName("org.apache.ignite.IgniteJdbcThinDriver");
+			// Open JDBC connection
+			Connection conn = DriverManager.getConnection("jdbc:ignite:thin://127.0.0.1;user=ignite;password=uniplore_601");
+			// Populate City table
+			
+			Statement stmt = conn.createStatement();
 
-	@Override
+			stmt.executeUpdate("alter USER \"ignite\" with password 'ignite';");
+			System.out.println("正在修改pwd");
+			stmt.close();
+			conn.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+
 	public void run() {
 		// TODO Auto-generated method stub
 		CacheConfiguration cacheCfg = new CacheConfiguration("myCache");
