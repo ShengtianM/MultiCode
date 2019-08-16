@@ -300,6 +300,12 @@ public class PostData extends AbstractPostData{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void postTelemetry(String payload) {
+		// TODO Auto-generated method stub
+		
+	}
     
     
     

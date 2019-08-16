@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * 通过Mqtt协议提交数据
  * @author MinShengtian
  *
  * 2018年12月4日
@@ -26,8 +27,13 @@ public class PostDataByMqtt extends AbstractPostData{
 	private String broker = null;
 	private String mqttMessage = null;
 	
+	/**
+	 * 
+	 * @param device 设备id
+	 * @param ip 服务端ip
+	 */
 	public PostDataByMqtt(String device,String ip){
-		super(device,ip,"9999");
+		super(device,ip,"1883");
 		options = new MqttConnectOptions();
 		//是否清空session
 		options.setCleanSession(true);
@@ -94,7 +100,6 @@ public class PostDataByMqtt extends AbstractPostData{
 	        //关闭客户端
 	        mqc.close();
 		} catch (MqttException | JsonProcessingException me) {
-			// TODO Auto-generated catch block
             System.out.println("msg " + me.getMessage());
             System.out.println("loc " + me.getLocalizedMessage());
             System.out.println("cause " + me.getCause());
@@ -136,7 +141,6 @@ public class PostDataByMqtt extends AbstractPostData{
 	        //关闭客户端
 	        mqc.close();
 		} catch (MqttException | JsonProcessingException me) {
-			// TODO Auto-generated catch block
             System.out.println("msg " + me.getMessage());
             System.out.println("loc " + me.getLocalizedMessage());
             System.out.println("cause " + me.getCause());
@@ -370,9 +374,10 @@ public class PostDataByMqtt extends AbstractPostData{
 	@Override
 	public void sendRpcToServer() {
 		String topic = "v1/devices/me/rpc/request/";
+		MqttClient mqc=null;
 		try {
 			//broker为主机名，deviceId即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置deviceId的保存形式，默认为以内存保存 
-			MqttClient mqc = new MqttClient(broker, this.deviceId,new MemoryPersistence());			
+			mqc = new MqttClient(broker, this.deviceId,new MemoryPersistence());			
 			//建立连接
 			mqc.connect(options);
 
@@ -399,8 +404,58 @@ public class PostDataByMqtt extends AbstractPostData{
             System.out.println("excep " + me);
             me.printStackTrace();
 
+		}finally{
+			if(mqc!=null){
+				try {
+					mqc.close();
+				} catch (MqttException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		
+	}
+
+	@Override
+	public void postTelemetry(String payload) {
+		// TODO Auto-generated method stub
+		String topic = "v1/devices/me/telemetry";
+		MqttClient mqc=null;
+		try {
+			//broker为主机名，deviceId即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置deviceId的保存形式，默认为以内存保存 
+			mqc = new MqttClient(broker, this.deviceId,new MemoryPersistence());			
+			//建立连接
+			mqc.connect(options);
+
+	        //创建消息
+	        MqttMessage msg = new MqttMessage(payload.getBytes());
+	        //设置消息服务质量
+	        msg.setQos(1);
+	        //发布消息
+	        mqc.publish(topic, msg);
+	        
+	        //断开连接
+	        mqc.disconnect();
+	        //关闭客户端
+	        mqc.close();
+		} catch (Exception me) {
+			// TODO Auto-generated catch block
+            System.out.println("msg " + me.getMessage());
+            System.out.println("loc " + me.getLocalizedMessage());
+            System.out.println("cause " + me.getCause());
+            System.out.println("excep " + me);
+            me.printStackTrace();            
+
+		}finally{
+			if(mqc!=null){
+				try {
+					mqc.close();
+				} catch (MqttException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	

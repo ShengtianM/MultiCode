@@ -10,7 +10,6 @@ import java.util.Properties;
 public class GetSystemInfo {
 
 	public GetSystemInfo() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	//获取本机IP地址
@@ -19,6 +18,7 @@ public class GetSystemInfo {
 		return address.getHostAddress();
 	}
 	
+	//获取本机MAC地址
 	public static String getMACAddress(){  
 		  
         String address = "";  

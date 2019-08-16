@@ -7,6 +7,7 @@ import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
+ * 通过Coap协议提交数据
  * @author MinShengtian
  *
  * 2018年12月13日
@@ -89,6 +90,33 @@ public class PostDataByCoap extends AbstractPostData {
 	@Override
 	public void sendRpcToServer() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postTelemetry(String payload) {
+		String uri ="coap://"+this.serverIp+"/api/v1/"+this.deviceId+"/telemetry";
+		CoapClient client = new CoapClient(uri);
+		try {
+			client.post(new CoapHandler(){
+
+				@Override
+				public void onError() {
+					System.out.println("post on error");
+					
+				}
+
+				@Override
+				public void onLoad(CoapResponse arg0) {
+					System.out.println("post on Load");
+					
+				}
+				
+			},payload, MediaTypeRegistry.APPLICATION_JSON);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

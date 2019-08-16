@@ -11,7 +11,6 @@ public class TestEnum {
 	}
 	
 	public TestEnum() {
-		// TODO Auto-generated constructor stub
 		
 	}
 

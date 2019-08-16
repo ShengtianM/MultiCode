@@ -29,5 +29,6 @@
 	<classpathentry kind="lib" path="lib/coap/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="lib/mqtt/org.eclipse.paho.client.mqttv3-1.2.0-sources.jar"/>
 	<classpathentry kind="lib" path="lib/mqtt/org.eclipse.paho.client.mqttv3-1.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/mondrian/mondrian.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

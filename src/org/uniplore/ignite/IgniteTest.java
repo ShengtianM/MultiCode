@@ -14,14 +14,9 @@ import org.flywaydb.core.Flyway;
 public class IgniteTest{
 	
 	public IgniteTest() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//SearchDataToIgnite();
-		//testFlyway();
-        //System.out.println("success");
 		changeIngitePwd();
 	}
 	
@@ -134,7 +129,6 @@ public class IgniteTest{
 		    // Create an index on the Person table.
 		    stmt.executeUpdate("CREATE INDEX idx_person_name ON Person (name)");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -160,7 +154,6 @@ public class IgniteTest{
 
 
 	public void run() {
-		// TODO Auto-generated method stub
 		CacheConfiguration cacheCfg = new CacheConfiguration("myCache");
 		cacheCfg.setCacheMode(CacheMode.PARTITIONED);
 		IgniteConfiguration cfg = new IgniteConfiguration();

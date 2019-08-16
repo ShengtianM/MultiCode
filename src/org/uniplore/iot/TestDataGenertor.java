@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * 用于生成测试IOT协议所用的数据
  * @author MinShengtian
  *
  * 2018年12月3日

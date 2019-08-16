@@ -25,7 +25,6 @@ public class ReadFileSpeed {
     private static String dir="d:/RedisData/";
    // private int multi=100;
 	public ReadFileSpeed() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void start(String path)throws Exception{

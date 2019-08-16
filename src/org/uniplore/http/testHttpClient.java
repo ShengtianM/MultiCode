@@ -12,10 +12,9 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 public class testHttpClient {
 
 	public testHttpClient() {
-		// TODO Auto-generated constructor stub
 	}
 	
-	public static String testGet(){
+	public String testGet(){
 		String tempString="test";
 		HttpClient httpClient = new HttpClient();
 		//创建GET方法的实例
@@ -47,11 +46,6 @@ public class testHttpClient {
 		}	
 		
 		return tempString;
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-        testGet();
 	}
 
 }

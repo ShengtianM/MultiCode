@@ -39,8 +39,8 @@ public class PrintContainers {
 	
 	// 测试Arrays.asList和addAll
 	static void testasListandAddall(){
-		List<Apple> apple=Arrays.asList(new Apple(),new Apple());
-		Collections.addAll(apple,new Apple(),new Apple());
+		List<String> apple=Arrays.asList(new String(),new String());
+		Collections.addAll(apple,new String(),new String());
 	}
 	
 	public static void start(){

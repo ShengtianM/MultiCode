@@ -4,36 +4,55 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-public class SumFileRows {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	private static String path="d:/src/";
-	
+/**
+ * 统计指定文件夹下的文件行数
+ * 可用于计算源码量
+ * @author tian
+ *
+ */
+public class SumFileRows {
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	public SumFileRows() {
-		// TODO Auto-generated constructor stub
 	}
 	
-	public void Start() throws Exception{
+	/**
+	 * 根据文件路径计算指定文件夹下的文件行数
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
+	public double start(String path) throws Exception{
 		File fd=new File(path);
 		String[] fflist=fd.list();
 		String s;
-		int count=0;
+		double count=0;
 		for(int j=0;j<fflist.length;j++){
 			File f= new File(path+fflist[j]);
 			//判断是否为文件夹
 			if (f.isDirectory()){
 				//得到文件夹下所有内容
 				s = new String(path+fflist[j]);
-				count+=doFileDir(s);}		
-			else if(f.isFile()){
+				count+=doFileDir(s);
+			}else if(f.isFile()){
 				s = new String(path+fflist[j]);
 				count+=doFile(s);
-			    }//end if
-			}// end for
-		System.out.println("Total rows is"+count);
+			}//end if
+		}// end for
+		return count;
 	}
 	
+	/**
+	 * 对文件夹进行处理
+	 * @param s
+	 * @return
+	 * @throws Exception
+	 */
 	public int doFileDir(String s)throws Exception{
-		System.out.println("filedir:"+s);
+		logger.info("当前处理目录:"+s);
 		int count=0;
 		String ss;
 		File f=new File(s);
@@ -49,7 +68,7 @@ public class SumFileRows {
 				count+=doFile(ss);
 			}
 		}
-		System.out.println("filedir:"+s+"->sum"+count);
+		logger.info("当前处理目录:"+s+"->sum:"+count);
 		return count;
 	}
 	
@@ -63,9 +82,9 @@ public class SumFileRows {
             count++; 			
 		}
 		in.close();
-		//完成一个文件的替换输出OK
-		System.out.println(fd+":Sum->"+count+"OK");
+		//完成一个文件的替换输出
+		logger.info("当前文件："+fd+"->sum:"+count);
 		return count;
-		}
+	}
         
 }
