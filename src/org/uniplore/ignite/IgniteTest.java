@@ -17,7 +17,14 @@ public class IgniteTest{
 	}
 
 	public static void main(String[] args) {
-		changeIngitePwd();
+		//changeIngitePwd();
+		IgniteManager igm =new IgniteManager();
+		try {
+			//igm.insertDataToIgnite();
+			igm.getDataWithAggregate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void testFlyway(){

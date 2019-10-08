@@ -12,11 +12,11 @@ import java.util.Random;
  
 public class DownloadPicFromURL {
 	
-	private final static int MIN_X=714;
-	private final static int MAX_X=739;
-	private final static int MIN_Y=166;
-	private final static int MAX_Y=192;
-	private final static int Z=12;
+	private final static int MIN_X=5630;
+	private final static int MAX_X=5959;
+	private final static int MIN_Y=1487;
+	private final static int MAX_Y=1653;
+	private final static int Z=15;
     public static void main(String[] args) {
     	Random rand=new Random(47);
         String url = "http://online4.map.bdimg.com/tile/?qt=vtile&x=86&y=23&z=9&styles=pl&scaler=1&udt=20190815";
@@ -36,6 +36,7 @@ public class DownloadPicFromURL {
         		downloadPicture(url,path);
         	}
         }
+        System.out.println("Download pic z="+Z+" success");
         
         
     }
