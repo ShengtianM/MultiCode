@@ -86,14 +86,15 @@ public class UserSync {
 					+ "values(4,?,1,?,?,?,?,?,?,?)");
 			
 			PreparedStatement targetUpdatePs = targetConn.prepareStatement("update charge_user "
-					+ "set user_type=?,parent_id=1,name=?,email=?,password=?,create_date=?,account_state=?"
-					+ " where user_ext_info=? and user_org_code=?");
+					+ "set user_type=?,parent_id=1,email=?,password=?,create_date=?,account_state=?"
+					+ " where name=? and user_ext_info=? and user_org_code=?");
 			
 			while(rs.next()){
 				try{
-				String loginId=rs.getString("DEPARTMENT");
-				String orgCode=rs.getString("PBC_CODE");
-				if(!isExistUser(loginId,orgCode)){
+					String userName = rs.getString("LOGIN_NAME");
+					String deptId=rs.getString("DEPARTMENT");
+					String orgCode=rs.getString("PBC_CODE");
+				if(!isExistUser(userName,deptId,orgCode)){
 					//insert
 					String userType="B";
 					
@@ -104,12 +105,12 @@ public class UserSync {
 							targetInsertPs.setString(1, "U");
 						}
 						
-						targetInsertPs.setString(2, rs.getString("LOGIN_NAME"));
-						targetInsertPs.setString(3, rs.getString("LOGIN_NAME"));
+						targetInsertPs.setString(2, userName);
+						targetInsertPs.setString(3, userName);
 						targetInsertPs.setString(4, Des3Util.encode(rs.getString("PASS_WORD")));
 						targetInsertPs.setDate(5, rs.getDate("CREATE_DATE"));
 						targetInsertPs.setInt(6, Integer.parseInt(rs.getString("STATUS")));
-						targetInsertPs.setString(7,loginId);
+						targetInsertPs.setString(7,deptId);
 						targetInsertPs.setString(8,orgCode);
 						targetInsertPs.addBatch();
 						insUserNum++;							
@@ -123,12 +124,12 @@ public class UserSync {
 							targetUpdatePs.setString(1, "U");
 						}
 						
-						targetUpdatePs.setString(2, rs.getString("LOGIN_NAME"));
-						targetUpdatePs.setString(3, rs.getString("LOGIN_NAME"));
-						targetUpdatePs.setString(4, Des3Util.encode(rs.getString("PASS_WORD")));
-						targetUpdatePs.setDate(5, rs.getDate("CREATE_DATE"));
-						targetUpdatePs.setInt(6, Integer.parseInt(rs.getString("STATUS")));
-						targetUpdatePs.setString(7,loginId);
+						targetUpdatePs.setString(2, userName);
+						targetUpdatePs.setString(3, Des3Util.encode(rs.getString("PASS_WORD")));
+						targetUpdatePs.setDate(4, rs.getDate("CREATE_DATE"));
+						targetUpdatePs.setInt(5, Integer.parseInt(rs.getString("STATUS")));
+						targetUpdatePs.setString(6,userName);
+						targetUpdatePs.setString(7,deptId);
 						targetUpdatePs.setString(8,orgCode);
 						targetUpdatePs.addBatch();
 						upUserNum++;
@@ -151,15 +152,16 @@ public class UserSync {
 		}
 	}
 	
-	public boolean isExistUser(String department,String orgCode){
+	public boolean isExistUser(String userName,String department,String orgCode){
 		boolean flag = false;
 		try{
 			Class.forName(targetDriver);
 			Connection targetConn = DriverManager.getConnection(targetUrl, targetUser, targetPassword);
 			PreparedStatement ps = targetConn.prepareStatement("select count(*) from charge_user "
-					+ "where user_ext_info=? and user_org_code=?");
-			ps.setString(1, department);
-			ps.setString(2, orgCode);
+					+ "where name=? and user_ext_info=? and user_org_code=?");
+			ps.setString(1, userName);
+			ps.setString(2, department);
+			ps.setString(1, orgCode);
 			ResultSet rs = ps.executeQuery();
 			
 			rs.next();
@@ -343,8 +345,8 @@ public class UserSync {
 		insOrgNum=0;
 		try{
 			Class.forName(dimDriver);
-			Connection srcConn = DriverManager.getConnection(dimUrl, dimUser, dimPassword);
-			PreparedStatement ps = srcConn.prepareStatement("select DISTINCT ORG_ID,ORG_DSCR"
+			Connection dimConn = DriverManager.getConnection(dimUrl, dimUser, dimPassword);
+			PreparedStatement ps = dimConn.prepareStatement("select DISTINCT ORG_ID,ORG_DSCR"
 					+ " from t_org_biz_lvl where IS_ACTIVE='1' GROUP BY ORG_ID");
 			ResultSet rs = ps.executeQuery();
 			
@@ -388,7 +390,7 @@ public class UserSync {
 			ps.close();
 			targetInsertPs.close();
 			targetUpdatePs.close();
-			srcConn.close();
+			dimConn.close();
 			targetConn.close();
 		}catch(Exception e){
 			e.printStackTrace();
