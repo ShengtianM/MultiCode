@@ -81,11 +81,11 @@ public class UserSync {
 			
 			Class.forName(targetDriver);
 			Connection targetConn = DriverManager.getConnection(targetUrl, targetUser, targetPassword);
-			PreparedStatement targetInsertPs = srcConn.prepareStatement("insert into charge_user("
+			PreparedStatement targetInsertPs = targetConn.prepareStatement("insert into charge_user("
 					+ "type,user_type,parent_id,name,email,password,create_date,account_state,user_ext_info,user_org_code)"
 					+ "values(4,?,1,?,?,?,?,?,?,?)");
 			
-			PreparedStatement targetUpdatePs = srcConn.prepareStatement("update charge_user "
+			PreparedStatement targetUpdatePs = targetConn.prepareStatement("update charge_user "
 					+ "set user_type=?,parent_id=1,name=?,email=?,password=?,create_date=?,account_state=?"
 					+ " where user_ext_info=? and user_org_code=?");
 			
@@ -350,11 +350,11 @@ public class UserSync {
 			
 			Class.forName(targetDriver);
 			Connection targetConn = DriverManager.getConnection(targetUrl, targetUser, targetPassword);
-			PreparedStatement targetInsertPs = srcConn.prepareStatement("insert into pbc_code_desc("
+			PreparedStatement targetInsertPs = targetConn.prepareStatement("insert into pbc_code_desc("
 					+ "pbc_code,pbc_org_desc)"
 					+ "values(?,?)");
 			
-			PreparedStatement targetUpdatePs = srcConn.prepareStatement("update pbc_code_desc "
+			PreparedStatement targetUpdatePs = targetConn.prepareStatement("update pbc_code_desc "
 					+ "set pbc_org_desc=?"
 					+ " where pbc_code=?");
 			
@@ -462,10 +462,7 @@ public class UserSync {
 				System.out.println("选项错误，请重新输入！");
 				break;
 			}
-		}
-		
-		
-		
+		}		
 		
 	}
 
