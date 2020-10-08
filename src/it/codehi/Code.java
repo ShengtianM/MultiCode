@@ -9,6 +9,8 @@ import org.uniplore.tools.Des3Util;
 import org.uniplore.tools.ReadFileSpeed;
 import org.uniplore.tools.ReplaceText;
 
+import com.uniplore.image.ProcessPng;
+
 /*
  * @author ShengtianMin
  * @version 1.0
@@ -23,6 +25,9 @@ public class Code {
 	public static final String mysqlpwd="mysql";
 	
 	public static void main(String[] args) throws Exception {
+		String filePath = "‪52091_27702.png";
+		String outPath = "52091_27702new.png";
+		ProcessPng.repalceColor(filePath, outPath);
 	}
 	
 	
