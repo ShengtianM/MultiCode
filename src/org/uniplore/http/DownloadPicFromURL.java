@@ -31,9 +31,49 @@ public class DownloadPicFromURL {
 	
 	public static void main(String[] args) {
     	
-		downloadAmapTile();
-        
+		//downloadAmapTile();
+		downloadCustomBaiduTile();
     }
+	
+	private static void downloadCustomBaiduTile(){
+        String url = "";
+        String path="G:/amaptile/baiduguiyang1_15/tiles";
+        String targetPath = "G:/baidumaptile/target/tiles";
+        String dirPath = null;
+        File baseDir = new File(path);
+        File[] listz = baseDir.listFiles();
+        for(File zFile:listz){
+        	if(zFile.isDirectory()){
+        		String z = zFile.getName();
+        		File[] listx = zFile.listFiles();
+        		for(File xFile:listx){
+        			if(xFile.isDirectory()){
+        				String x = xFile.getName();
+        				File[] listy = xFile.listFiles();
+        				for(File yFile:listy){
+        					//String filePath = yFile.getName();
+                			//String y = filePath.split("_")[1];
+        					String y = yFile.getName();
+                			y = y.substring(0, y.length()-4);
+        					
+                			String realPath = targetPath+File.separator+z+File.separator+x+File.separator+y+".png";
+                			String realUrl = "https://api.map.baidu.com/customimage/tile?&x="+x+
+                					"&y="+y+"&z="+z+"&udt=20200928&scale=1&ak=E4805d16520de693a3fe707cdc962045&customid=midnight";
+                			File t = new File(targetPath+File.separator+z+File.separator+x);
+                    		if(!t.exists()){
+                    			t.mkdirs();
+                    		}
+                			downloadPicture(realUrl,realPath);
+                			System.out.println("Download pic ="+realPath+" success");
+        				}
+        			}
+        			
+        			
+        			
+        		}
+        	}
+        }
+	}
 	
 	private static void downloadAmapTile(){
         String url = "";
@@ -81,7 +121,7 @@ public class DownloadPicFromURL {
         for(int i=MIN_X;i<=MAX_X;i++){
         	for(int j=MIN_Y;j<=MAX_Y;j++){
         		url="http://online"+Math.abs(rand.nextInt()%5)+".map.bdimg.com/tile/?qt=vtile&x="
-        				+i+"&y="+j+"&z="+Z+"&styles=pl&scaler=1&udt=20190815";
+        				+i+"&y="+j+"&z="+Z+"&styles=pl&scaler=1&udt=20200928";
         		
         		path="d:/test/"+Z+"/"+i+"/"+j+".jpg";
         		dirPath = "d:/test/"+Z+"/"+i+"/";
@@ -93,8 +133,7 @@ public class DownloadPicFromURL {
         	}
         }
         System.out.println("Download pic z="+Z+" success");
-	}
-    
+	}    
     
     //链接url下载图片
     private static void downloadPicture(String urlList,String path) {
