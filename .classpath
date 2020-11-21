@@ -29,5 +29,7 @@
 	<classpathentry kind="lib" path="lib/mondrian/mondrian.jar"/>
 	<classpathentry kind="lib" path="lib/c3p0-0.9.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/postgresql-42.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/mchange-commons-java-0.2.19.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
