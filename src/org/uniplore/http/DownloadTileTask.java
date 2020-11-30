@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.List;
-
-import com.ibm.icu.text.MessageFormat;
-
 /**
  * 瓦片下载任务类
  * @author tian
