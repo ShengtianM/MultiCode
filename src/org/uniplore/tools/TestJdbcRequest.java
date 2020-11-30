@@ -17,7 +17,6 @@ public class TestJdbcRequest {
 	
 	private static ComboPooledDataSource dataSource;
 	public TestJdbcRequest() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static void main(String[] args) {
@@ -26,7 +25,6 @@ public class TestJdbcRequest {
 			tjr.init();
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

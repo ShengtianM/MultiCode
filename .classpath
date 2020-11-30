@@ -32,5 +32,9 @@
 	<classpathentry kind="lib" path="lib/mondrian/mondrian.jar"/>
 	<classpathentry kind="lib" path="lib/c3p0-0.9.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/postgresql-42.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/kafka/kafka_2.13-2.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/kafka/kafka-clients-2.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/spark/spark-mllib_2.11-2.4.7.jar"/>
+	<classpathentry kind="lib" path="lib/spark/spark-sql_2.11-2.4.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
