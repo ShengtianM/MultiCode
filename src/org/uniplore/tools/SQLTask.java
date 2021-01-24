@@ -29,7 +29,8 @@ public class SQLTask implements Runnable {
 
 	@Override
 	public void run() {
-		try {			
+		if(!sql.equalsIgnoreCase("-1")) {
+			try {			
 			Connection conn = tjr.getConnection();
 			long beginTime = System.currentTimeMillis(); 
 			PreparedStatement st = conn.prepareStatement(sql);
@@ -46,10 +47,11 @@ public class SQLTask implements Runnable {
 			conn.close();
 			long endTime = System.currentTimeMillis(); 
 			logger.info("Thread "+this.thredIndex +",Cost time is :"+(endTime - beginTime)*1.0/1000+"s");
-			tjr.putCost((endTime - beginTime)*1.0/1000);
+			tjr.putCost((endTime - beginTime)*1.0/1000,this.thredIndex);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+			}
 
 	}
 	

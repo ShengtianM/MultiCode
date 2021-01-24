@@ -1,5 +1,6 @@
 package org.uniplore.tools;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,9 +19,12 @@ public class TestJdbcRequest {
 	
 	public final String user ="root";
 	public final String pwd ="tidb";
-	public final String url ="jdbc:mysql://192.168.103.88:3390/elec?allowMultiQueries=true";
+	//public final String url ="jdbc:postgresql://192.168.103.76:5432/tpch1";
+	public final String url ="jdbc:mysql://192.168.103.76:4000/tpch1";
+	//public final String driver ="org.postgresql.Driver";//
 	public final String driver ="com.mysql.jdbc.Driver";
-	public List<Double> costList = new ArrayList<>();
+	public List<List<Double>> costList = new ArrayList<>(10);
+	public final static String sqlFilePath = "d://tidb";
 	
 	private static ComboPooledDataSource dataSource;
 	public TestJdbcRequest() {
@@ -29,18 +33,24 @@ public class TestJdbcRequest {
 	public static void main(String[] args) {
 		TestJdbcRequest tjr = new TestJdbcRequest();
 		try {
-			int num =100;
+			int num =20;
 			tjr.init();
-			//tjr.beginTest(tjr,num,1);
-			tjr.beginComplexTest(tjr,num);
-			while(true) {
-				if(tjr.costList.size()==num) {
-					DoubleSummaryStatistics collect = tjr.costList.stream().collect(Collectors.summarizingDouble(value->value));
-					System.out.println("执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
-					break;
-				}
-				Thread.sleep(1000);
+			for(int i=0;i<=4;i++) {
+				tjr.costList.add(new ArrayList<>());
 			}
+			//tjr.beginTest(tjr,num,1);			
+			///tjr.beginComplexTest(tjr,num);
+			tjr.beginComplexSQLFile(tjr, num,sqlFilePath);
+//			while(true) {
+//				if(tjr.costList.size()==num) {
+			for(int i=1;i<=4;i++) {
+					DoubleSummaryStatistics collect = tjr.costList.get(i).stream().collect(Collectors.summarizingDouble(value->value));
+					System.out.println("执行"+i+",执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
+					}
+//					break;
+//				}
+//				Thread.sleep(1000);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,6 +77,35 @@ public class TestJdbcRequest {
 		for(int i = 0;i<num;i++) {
 			SQLTask sqltask = new SQLTask(i,runSql,Arrays.asList(preParam+String.valueOf(i+1)),tjr);
 			fixedThreadPool.execute(sqltask);
+		}
+	}
+	
+	public void beginComplexSQLFile(TestJdbcRequest tjr,int num,String path) throws Exception{
+		//ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+
+		for(int i = 0;i<num;i++) {
+			String realPath = path+File.separator+"q"+(i%4+1)+".sql";
+			SQLTask sqltask = new SQLTask(i%4+1,ReadFileContentToString.start(realPath),Arrays.asList(),tjr);
+			//fixedThreadPool.execute(sqltask);
+			sqltask.run();
+		}
+	}
+	
+	public void beginComplexConn(TestJdbcRequest tjr,int num) throws Exception{
+		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+
+		String runSql1 = "select 1";
+
+		String runSql2 = "select 1";
+
+		for(int i = 0;i<num;i++) {
+			if(i%10<2) {
+				SQLTask sqltask = new SQLTask(i,runSql1,Arrays.asList(),tjr);
+				fixedThreadPool.execute(sqltask);
+			}else {
+				SQLTask sqltask = new SQLTask(i,runSql2,Arrays.asList(),tjr);
+				fixedThreadPool.execute(sqltask);
+			}
 		}
 	}
 	
@@ -101,9 +140,9 @@ public class TestJdbcRequest {
 		dataSource.setPassword(pwd);
 		dataSource.setJdbcUrl(url);
 		dataSource.setDriverClass(driver);
-		dataSource.setInitialPoolSize(10);
+		dataSource.setInitialPoolSize(5);
 		dataSource.setMinPoolSize(5);
-		dataSource.setMaxPoolSize(25);
+		dataSource.setMaxPoolSize(10);
 		dataSource.setMaxStatements(50);
 		dataSource.setMaxIdleTime(60);
 
@@ -123,10 +162,9 @@ public class TestJdbcRequest {
 		return conn;
 	}
 	
-	public synchronized final void putCost(double cost) throws Exception {
+	public synchronized final void putCost(double cost,int i) throws Exception {
 		try {
-			this.costList.add(cost);
-			// conn = druidDataSource.getConnection();
+			this.costList.get(i).add(cost);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
