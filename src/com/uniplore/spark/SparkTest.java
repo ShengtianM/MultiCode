@@ -14,6 +14,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.uniplore.tools.PoolDataSourceManager;
 
+import net.sf.json.JSONObject;
+
 public class SparkTest {
 	private Properties kafkaProps = new Properties();
 	public final static String user ="root";
@@ -34,13 +36,39 @@ public class SparkTest {
 			
 			// 初始化 kafka 环境
 			tjr.init();
-			
-			tjr.consumerMessage(jdbcManager,"test");
-			
+			for(int i=0;i<100;i++) {
+				String msg= tjr.buildMessage(i);
+				tjr.sendMessage("pwtd_scada","record",msg);
+			}
+						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
+	
+	public String buildMessage(int i) {
+		JSONObject data = new JSONObject();
+		data.put("tgPc", 9.1+i);
+		data.put("tgPa", 7);
+		data.put("tgQa", 2.2);
+		data.put("tgPFa", 0.9491);
+		data.put("tgIc", 40.5);
+		data.put("tgIa", 31.5);
+		
+		JSONObject properties = new JSONObject();
+		properties.put("deviceIdentifier", "50012006000341_PMCMeter");
+		properties.put("eventTime", "20201211T144101Z");
+		properties.put("gatewayIdentifier", "50012006000341");
+		properties.put("serviceId", "serviceYC");
+		properties.put("deviceId", "D29921937DhcRb");
+		properties.put("gatewayId", "50012006000341");
+		
+		JSONObject msg = new JSONObject();
+		msg.put("data", data);
+		msg.put("properties", properties);
+		
+		return msg.toString();
+	}
 	
 	public void init(){
 		// 指定broker（这里指定了1个），如果你是集群更改主机名即可，如果不是只写运行的主机名
