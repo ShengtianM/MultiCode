@@ -35,5 +35,19 @@
 	<classpathentry kind="lib" path="lib/spark/spark-sql_2.11-2.4.7.jar"/>
 	<classpathentry kind="lib" path="lib/mchange-commons-java-0.2.19.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.5.jar"/>
+	<classpathentry kind="lib" path="lib/prometheus/simpleclient-0.9.0.jar"/>
+	<classpathentry kind="lib" path="lib/prometheus/simpleclient_httpserver-0.9.0.jar"/>
+	<classpathentry kind="lib" path="lib/prometheus/simpleclient_common-0.9.0.jar"/>
+	<classpathentry kind="lib" path="lib/excel/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/excel/poi-examples-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/excel/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/excel/poi-excelant-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/excel/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/excel/poi-scratchpad-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/excel/hutool-all-4.5.10.jar"/>
+	<classpathentry kind="lib" path="lib/excel/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/excel/xercesImpl-2.12.0.jar"/>
+	<classpathentry kind="lib" path="lib/excel/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-core-4.0.1.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
-import java.util.LongSummaryStatistics;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -16,10 +15,10 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class TestJdbcRequest {
 	
-	public final String user ="root";
-	public final String pwd ="tidb";
-	public final String url ="jdbc:mysql://192.168.103.88:3390/elec?allowMultiQueries=true";
-	public final String driver ="com.mysql.jdbc.Driver";
+	public final static String user ="root";
+	public final static String pwd ="tidb";
+	public final static String url ="jdbc:mysql://192.168.103.76:4000/elec";
+	public final static String driver ="com.mysql.jdbc.Driver";
 	public List<Double> costList = new ArrayList<>();
 	
 	private static ComboPooledDataSource dataSource;
@@ -29,18 +28,18 @@ public class TestJdbcRequest {
 	public static void main(String[] args) {
 		TestJdbcRequest tjr = new TestJdbcRequest();
 		try {
-			int num =100;
-			tjr.init();
-			//tjr.beginTest(tjr,num,1);
-			tjr.beginComplexTest(tjr,num);
-			while(true) {
-				if(tjr.costList.size()==num) {
-					DoubleSummaryStatistics collect = tjr.costList.stream().collect(Collectors.summarizingDouble(value->value));
-					System.out.println("执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
-					break;
-				}
-				Thread.sleep(1000);
-			}
+			int num =1000;
+			tjr.init(user,pwd,url,driver);
+			tjr.beginTest(tjr,num,3);
+//			tjr.beginComplexTest(tjr,num);
+//			while(true) {
+//				if(tjr.costList.size()==num) {
+//					DoubleSummaryStatistics collect = tjr.costList.stream().collect(Collectors.summarizingDouble(value->value));
+//					System.out.println("执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
+//					break;
+//				}
+//				Thread.sleep(1000);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,10 +62,15 @@ public class TestJdbcRequest {
 					+ "where khjld.`YHBH` = kh.`YHBH` and kh.YHBH like ? limit 100";
 			preParam = "YHBH";
 			break;
+		case 3:
+			runSql = "select 1";
 		}
 		for(int i = 0;i<num;i++) {
-			SQLTask sqltask = new SQLTask(i,runSql,Arrays.asList(preParam+String.valueOf(i+1)),tjr);
+			SQLTask sqltask = new SQLTask(i,runSql,
+					null//Arrays.asList(preParam+String.valueOf(i+1))
+					,tjr);
 			fixedThreadPool.execute(sqltask);
+			System.out.println("Execute "+i);
 		}
 	}
 	
@@ -95,17 +99,25 @@ public class TestJdbcRequest {
 		}
 	}
 	
-	public void init() throws Exception{
+	/**
+	 * 
+	 * @param user
+	 * @param pwd
+	 * @param url
+	 * @param driver
+	 * @throws Exception
+	 */
+	public void init(String user,String pwd,String url,String driver) throws Exception{
 		dataSource = new ComboPooledDataSource();
 		dataSource.setUser(user);
 		dataSource.setPassword(pwd);
 		dataSource.setJdbcUrl(url);
 		dataSource.setDriverClass(driver);
-		dataSource.setInitialPoolSize(10);
-		dataSource.setMinPoolSize(5);
-		dataSource.setMaxPoolSize(25);
-		dataSource.setMaxStatements(50);
-		dataSource.setMaxIdleTime(60);
+		dataSource.setInitialPoolSize(10000);//10
+		dataSource.setMinPoolSize(10000);//5
+		dataSource.setMaxPoolSize(25000);//25
+		dataSource.setMaxStatements(50);//50
+		dataSource.setMaxIdleTime(600);//60
 
 		// 重连设置
 		dataSource.setAcquireRetryAttempts(3);
