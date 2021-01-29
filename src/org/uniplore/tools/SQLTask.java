@@ -46,8 +46,9 @@ public class SQLTask implements Runnable {
 			st.close();
 			conn.close();
 			long endTime = System.currentTimeMillis(); 
-			logger.info("Thread "+this.thredIndex +",Cost time is :"+(endTime - beginTime)*1.0/1000+"s");
+			logger.info("Thread "+this.thredIndex +",Cost time is :"+(endTime - beginTime)*1.0/1000+"s,"+"ExecNum is:"+tjr.execNum);
 			tjr.putCost((endTime - beginTime)*1.0/1000,this.thredIndex);
+			tjr.addExecCost();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

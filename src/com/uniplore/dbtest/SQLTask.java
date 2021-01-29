@@ -60,7 +60,7 @@ public class SQLTask extends Collector implements Runnable {
 			long endTime = System.currentTimeMillis(); 
 			costTime = (endTime - beginTime)*1.0/1000;
 			logger.info("Thread "+this.thredIndex +",Cost time is :"+costTime+"s");
-			tjr.putCost((endTime - beginTime)*1.0/1000);
+			tjr.putCost((endTime - beginTime)*1.0/1000,this.thredIndex);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{

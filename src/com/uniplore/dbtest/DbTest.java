@@ -36,7 +36,7 @@ public class DbTest {
 //			tjr.consumerMessage(jdbcManager);
 			while(true) {
 				if(jdbcManager.costList.size()==num) {
-					DoubleSummaryStatistics collect = jdbcManager.costList.stream().collect(Collectors.summarizingDouble(value->value));
+					DoubleSummaryStatistics collect = jdbcManager.costList.get(0).stream().collect(Collectors.summarizingDouble(value->value));
 					System.out.println("执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
 					long endTime = System.currentTimeMillis(); 
 					System.out.println("Cost time is :"+(endTime - beginTime)*1.0/1000+"s");

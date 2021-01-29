@@ -1,6 +1,4 @@
 package org.uniplore.tools;
-
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,14 +15,17 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class TestJdbcRequest {
 	
 
-	public final String user ="root";
-	public final String pwd ="tidb";
-	//public final String url ="jdbc:postgresql://192.168.103.76:5432/tpch1";
-	public final String url ="jdbc:mysql://192.168.103.76:4000/tpch1";
-	//public final String driver ="org.postgresql.Driver";//
-	public final String driver ="com.mysql.jdbc.Driver";
+	public final static String user ="root";
+	public final static String pwd ="****";
+	//public final static String url ="jdbc:postgresql://192.168.103.76:5432/tpch1g";
+	public final static String url ="jdbc:mysql://192.168.103.88:3390/tpch1g";
+	//public final static String driver ="org.postgresql.Driver";//
+	public final static String driver ="com.mysql.jdbc.Driver";
 	public List<List<Double>> costList = new ArrayList<>(10);
-	public final static String sqlFilePath = "d://tidb";
+	public final static String sqlFilePath = "d://sql";
+	public int execNum = 0;
+	public static int concurrencyNum = 30;
+	public static int sqlNum = 10;
 	
 	private static ComboPooledDataSource dataSource;
 	public TestJdbcRequest() {
@@ -33,33 +34,34 @@ public class TestJdbcRequest {
 	public static void main(String[] args) {
 		TestJdbcRequest tjr = new TestJdbcRequest();
 		try {
-			int num =1000;
+			int num =concurrencyNum*sqlNum;
+			
 			tjr.init(user,pwd,url,driver);
 
-			for(int i=0;i<=4;i++) {
+			for(int i=0;i<=sqlNum;i++) {
 				tjr.costList.add(new ArrayList<>());
 			}
 			//tjr.beginTest(tjr,num,1);			
 			///tjr.beginComplexTest(tjr,num);
 			tjr.beginComplexSQLFile(tjr, num,sqlFilePath);
-//			while(true) {
-//				if(tjr.costList.size()==num) {
-			for(int i=1;i<=4;i++) {
-					DoubleSummaryStatistics collect = tjr.costList.get(i).stream().collect(Collectors.summarizingDouble(value->value));
-					System.out.println("执行"+i+",执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
+			while(true) {
+				if(tjr.execNum == num) {
+					for(int i=1;i<=sqlNum;i++) {
+						DoubleSummaryStatistics collect = tjr.costList.get(i).stream().collect(Collectors.summarizingDouble(value->value));
+						RecordJdbcTestResult.recordResult("TiDB1R", "1q"+i, collect.getMax(), collect.getMin(), collect.getAverage(), concurrencyNum);
+						System.out.println("sql:q"+i+",执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
 					}
-
-//					break;
-//				}
-//				Thread.sleep(1000);
-//			}
+					break;
+				}
+				Thread.sleep(1000);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
 	
 	public void beginTest(TestJdbcRequest tjr,int num,int type) throws Exception{
-		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(concurrencyNum);
 		String runSql = null;
 		String preParam= null;
 		switch(type) {
@@ -88,31 +90,24 @@ public class TestJdbcRequest {
 	}
 	
 	public void beginComplexSQLFile(TestJdbcRequest tjr,int num,String path) throws Exception{
-		//ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(concurrencyNum);
 
-		for(int i = 0;i<num;i++) {
-			String realPath = path+File.separator+"q"+(i%4+1)+".sql";
-			SQLTask sqltask = new SQLTask(i%4+1,ReadFileContentToString.start(realPath),Arrays.asList(),tjr);
-			//fixedThreadPool.execute(sqltask);
-			sqltask.run();
+		for(int i = 0;i<num;i=i+sqlNum) {
+			MultiSQLTask sqltask = new MultiSQLTask(i/sqlNum+1,path,i,i+sqlNum,tjr);
+			fixedThreadPool.execute(sqltask);
+			//sqltask.run();
 		}
 	}
 	
-	public void beginComplexConn(TestJdbcRequest tjr,int num) throws Exception{
+	public void testMaxConn(TestJdbcRequest tjr,int num) throws Exception{
 		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
 
-		String runSql1 = "select 1";
-
-		String runSql2 = "select 1";
+		String runSql = "select 1";
 
 		for(int i = 0;i<num;i++) {
-			if(i%10<2) {
-				SQLTask sqltask = new SQLTask(i,runSql1,Arrays.asList(),tjr);
-				fixedThreadPool.execute(sqltask);
-			}else {
-				SQLTask sqltask = new SQLTask(i,runSql2,Arrays.asList(),tjr);
-				fixedThreadPool.execute(sqltask);
-			}
+			SQLTask sqltask = new SQLTask(i,runSql,Arrays.asList(),tjr);
+			fixedThreadPool.execute(sqltask);
+
 		}
 	}
 	
@@ -155,19 +150,11 @@ public class TestJdbcRequest {
 		dataSource.setPassword(pwd);
 		dataSource.setJdbcUrl(url);
 		dataSource.setDriverClass(driver);
-<<<<<<< HEAD
-		dataSource.setInitialPoolSize(10000);//10
-		dataSource.setMinPoolSize(10000);//5
-		dataSource.setMaxPoolSize(25000);//25
-		dataSource.setMaxStatements(50);//50
-		dataSource.setMaxIdleTime(600);//60
-=======
-		dataSource.setInitialPoolSize(5);
-		dataSource.setMinPoolSize(5);
-		dataSource.setMaxPoolSize(10);
+		dataSource.setInitialPoolSize(concurrencyNum);
+		dataSource.setMinPoolSize(concurrencyNum);
+		dataSource.setMaxPoolSize(concurrencyNum*30);
 		dataSource.setMaxStatements(50);
-		dataSource.setMaxIdleTime(60);
->>>>>>> origin/master
+		dataSource.setMaxIdleTime(600);
 
 		// 重连设置
 		dataSource.setAcquireRetryAttempts(3);
@@ -188,6 +175,14 @@ public class TestJdbcRequest {
 	public synchronized final void putCost(double cost,int i) throws Exception {
 		try {
 			this.costList.get(i).add(cost);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public synchronized final void addExecCost() throws Exception {
+		try {
+			this.execNum++;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
