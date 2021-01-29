@@ -7,7 +7,7 @@ public class RecordJdbcTestResult {
 	
 
 	public final static String user ="gpadmin";
-	public final static String pwd ="****";
+	public final static String pwd ="*****";
 	public final static String url ="jdbc:postgresql://192.168.100.19:5432/testDB";
 	public final static String driver ="org.postgresql.Driver";//
 	

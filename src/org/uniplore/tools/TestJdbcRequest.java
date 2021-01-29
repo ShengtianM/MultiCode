@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.alibaba.druid.pool.DruidDataSource;
 
 public class TestJdbcRequest {
 	
@@ -24,10 +24,10 @@ public class TestJdbcRequest {
 	public List<List<Double>> costList = new ArrayList<>(10);
 	public final static String sqlFilePath = "d://sql";
 	public int execNum = 0;
-	public static int concurrencyNum = 30;
+	public static int concurrencyNum = 20;
 	public static int sqlNum = 10;
 	
-	private static ComboPooledDataSource dataSource;
+	private static DruidDataSource dataSource;
 	public TestJdbcRequest() {
 	}
 	
@@ -145,20 +145,20 @@ public class TestJdbcRequest {
 	 * @throws Exception
 	 */
 	public void init(String user,String pwd,String url,String driver) throws Exception{
-		dataSource = new ComboPooledDataSource();
-		dataSource.setUser(user);
+		dataSource = new DruidDataSource();
+		dataSource.setUsername(user);
 		dataSource.setPassword(pwd);
-		dataSource.setJdbcUrl(url);
-		dataSource.setDriverClass(driver);
-		dataSource.setInitialPoolSize(concurrencyNum);
-		dataSource.setMinPoolSize(concurrencyNum);
-		dataSource.setMaxPoolSize(concurrencyNum*30);
-		dataSource.setMaxStatements(50);
-		dataSource.setMaxIdleTime(600);
+		dataSource.setUrl(url);
+		dataSource.setDriverClassName(driver);
+		dataSource.setInitialSize(concurrencyNum);
+		dataSource.setMinIdle(concurrencyNum);
+		dataSource.setMaxActive(concurrencyNum*3);
+		dataSource.setMaxCreateTaskCount(50);
+		dataSource.setMaxWait(60000);
 
 		// 重连设置
-		dataSource.setAcquireRetryAttempts(3);
-		dataSource.setAcquireRetryDelay(1000);
+//		dataSource.setAcquireRetryAttempts(3);
+//		dataSource.setAcquireRetryDelay(1000);
 	}
 	
 	public synchronized final Connection getConnection() throws Exception {
