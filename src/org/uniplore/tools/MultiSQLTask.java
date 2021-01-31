@@ -3,11 +3,7 @@ package org.uniplore.tools;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,15 +14,17 @@ import org.slf4j.LoggerFactory;
  */
 public class MultiSQLTask implements Runnable {
 	private String path;
+	private String sqlPrex;
 	private TestJdbcRequest tjr;
 	private int threadIndex;
 	private int beginNum = 0;
 	private int endNum = 0;
 	Logger logger = LoggerFactory.getLogger(MultiSQLTask.class);
 	
-	public MultiSQLTask(int i,String path,int beginNum,int endNum,TestJdbcRequest tjr) {
+	public MultiSQLTask(int i,String path,String sqlPrex,int beginNum,int endNum,TestJdbcRequest tjr) {
 		this.threadIndex = i;
 		this.path = path;
+		this.sqlPrex = sqlPrex;
 		this.beginNum = beginNum;
 		this.endNum = endNum;
 		this.tjr = tjr;
@@ -36,10 +34,21 @@ public class MultiSQLTask implements Runnable {
 	public void run() {
 		int sqlNum = endNum- beginNum;
 		for(int i = beginNum;i<endNum;i++) {
-			String realPath = path+File.separator+"1q"+(i%sqlNum+1)+".sql";
+			String realPath = path+File.separator+sqlPrex+(i%sqlNum+1)+".sql";
 			String sql = ReadFileContentToString.start(realPath);
 			executeSQL(sql,i%sqlNum+1);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+//		for(int i = endNum-1;i>=beginNum;i--) {
+//			String realPath = path+File.separator+"2q"+(i%sqlNum+1)+".sql";
+//			String sql = ReadFileContentToString.start(realPath);
+//			executeSQL(sql,i%sqlNum+1);
+//		}
+		
 
 	}
 	

@@ -16,15 +16,18 @@ public class TestJdbcRequest {
 	
 
 	public final static String user ="root";
-	public final static String pwd ="****";
-	//public final static String url ="jdbc:postgresql://192.168.103.76:5432/tpch1g";
+	public final static String pwd ="******";	
 	public final static String url ="jdbc:mysql://192.168.103.88:3390/tpch1g";
-	//public final static String driver ="org.postgresql.Driver";//
 	public final static String driver ="com.mysql.jdbc.Driver";
+//	public final static String driver ="org.postgresql.Driver";//
+//	public final static String url ="jdbc:postgresql://192.168.103.76:5432/tpch1g";
+	
 	public List<List<Double>> costList = new ArrayList<>(10);
-	public final static String sqlFilePath = "d://sql";
+	public final static String sqlFilePath = "d://tidb//sql";
+	public final static String sqlPrexPath = "vq";
+	public final static String dbType = "TiDB2R";
 	public int execNum = 0;
-	public static int concurrencyNum = 20;
+	public static int concurrencyNum = 64;
 	public static int sqlNum = 10;
 	
 	private static DruidDataSource dataSource;
@@ -43,13 +46,13 @@ public class TestJdbcRequest {
 			}
 			//tjr.beginTest(tjr,num,1);			
 			///tjr.beginComplexTest(tjr,num);
-			tjr.beginComplexSQLFile(tjr, num,sqlFilePath);
+			tjr.beginComplexSQLFile(tjr, num,sqlFilePath,sqlPrexPath);
 			while(true) {
 				if(tjr.execNum == num) {
 					for(int i=1;i<=sqlNum;i++) {
 						DoubleSummaryStatistics collect = tjr.costList.get(i).stream().collect(Collectors.summarizingDouble(value->value));
-						RecordJdbcTestResult.recordResult("TiDB1R", "1q"+i, collect.getMax(), collect.getMin(), collect.getAverage(), concurrencyNum);
-						System.out.println("sql:q"+i+",执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
+						RecordJdbcTestResult.recordResult(dbType, sqlPrexPath+i, collect.getMax(), collect.getMin(), collect.getAverage(), concurrencyNum);
+						System.out.println("sql:"+sqlPrexPath+i+",执行次数："+collect.getCount()+",最大值："+collect.getMax()+",最小值："+collect.getMin()+",平均值："+collect.getAverage());
 					}
 					break;
 				}
@@ -89,11 +92,11 @@ public class TestJdbcRequest {
 		}
 	}
 	
-	public void beginComplexSQLFile(TestJdbcRequest tjr,int num,String path) throws Exception{
+	public void beginComplexSQLFile(TestJdbcRequest tjr,int num,String path,String sqlPrexPath) throws Exception{
 		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(concurrencyNum);
 
 		for(int i = 0;i<num;i=i+sqlNum) {
-			MultiSQLTask sqltask = new MultiSQLTask(i/sqlNum+1,path,i,i+sqlNum,tjr);
+			MultiSQLTask sqltask = new MultiSQLTask(i/sqlNum+1,path,sqlPrexPath,i,i+sqlNum,tjr);
 			fixedThreadPool.execute(sqltask);
 			//sqltask.run();
 		}
@@ -152,7 +155,7 @@ public class TestJdbcRequest {
 		dataSource.setDriverClassName(driver);
 		dataSource.setInitialSize(concurrencyNum);
 		dataSource.setMinIdle(concurrencyNum);
-		dataSource.setMaxActive(concurrencyNum*3);
+		dataSource.setMaxActive(concurrencyNum*2);
 		dataSource.setMaxCreateTaskCount(50);
 		dataSource.setMaxWait(60000);
 
@@ -182,7 +185,8 @@ public class TestJdbcRequest {
 	
 	public synchronized final void addExecCost() throws Exception {
 		try {
-			this.execNum++;
+				this.execNum++;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
