@@ -36,7 +36,7 @@ public class MultiSQLTask implements Runnable {
 		for(int i = beginNum;i<endNum;i++) {
 			String realPath = path+File.separator+sqlPrex+(i%sqlNum+1)+".sql";
 			String sql = ReadFileContentToString.start(realPath);
-			executeSQL(sql,i%sqlNum+1);
+			executeSQL(sqlPrex+(i%sqlNum+1)+".sql",sql,i%sqlNum+1);
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -53,7 +53,7 @@ public class MultiSQLTask implements Runnable {
 	}
 	
 	
-	public void executeSQL(String sql,int index){
+	public void executeSQL(String sqlName,String sql,int index){
 		Connection conn = null;
 		PreparedStatement st = null;
 		if(!sql.equalsIgnoreCase("-1")) {
@@ -65,7 +65,7 @@ public class MultiSQLTask implements Runnable {
 				st.executeQuery();				
 				long endTime = System.currentTimeMillis(); 				
 				tjr.putCost((endTime - beginTime)*1.0/1000,index);
-				logger.info("Thread "+this.threadIndex +",Cost time is :"+(endTime - beginTime)*1.0/1000+"s,"+"ExecNum is:"+tjr.execNum);
+				logger.info("Thread "+this.threadIndex +",SQL Name is:"+sqlName+",Cost time is :"+(endTime - beginTime)*1.0/1000+"s,"+"ExecNum is:"+tjr.execNum);
 				tjr.addExecCost();
 			} catch (Exception e) {
 				e.printStackTrace();
